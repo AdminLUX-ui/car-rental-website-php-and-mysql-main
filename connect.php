@@ -12,6 +12,6 @@ try {
     echo "Connected successfully";
 } catch(PDOException $ex) {
     echo "Failed to connect with database! " . $ex->getMessage();
-    die();
+    
 }
 ?>
