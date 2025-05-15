@@ -1,5 +1,5 @@
 <?php
-$dsn = 'mysql:host=lux-mysql-server.mysql.database.azure.com;dbname=car_rental;
+$dsn = 'mysql:host=lux-mysql-server.mysql.database.azure.com;dbname=car_rental;sslmode=require;
 $user = 'mysqladmin@lux-mysql-server';
 $pass = 'Admin@123';
 $options = array(
