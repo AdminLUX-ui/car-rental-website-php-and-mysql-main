@@ -1,5 +1,6 @@
 <?php
-// ...existing code for DB connection...
+require_once 'connect.php'; // Add this to connect to the database
+
 if (isset($_GET['token'])) {
     $token = $_GET['token'];
     // Check if token exists
