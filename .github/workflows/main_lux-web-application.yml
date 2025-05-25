@@ -4,6 +4,9 @@
 name: Build and deploy PHP app to Azure Web App - lux-web-application
 
 on:
+  push:
+    branches:
+      - main
   workflow_dispatch:
 
 jobs:
@@ -59,7 +62,7 @@ jobs:
         uses: azure/webapps-deploy@v3
         id: deploy-to-webapp
         with:
-          app-name: 'lux-web-applicationn'
+          app-name: 'lux-web-application'
           slot-name: 'Production'
           package: .
-          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_LATEST }}
+          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_DF2302B26EDD46768832B47BD8C365FF }}
