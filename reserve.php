@@ -51,12 +51,24 @@
 									values(?,?,?)");
 					$stmtClient->execute(array($full_name,$client_email,$client_phonenumber));
 
-					//Inserting Reservation Details
-					$stmt_appointment = $con->prepare("insert into reservations(client_id, car_id, pickup_date, return_date, pickup_location, return_location ) values(?, ?, ?, ?, ?, ?)");
-                    $stmt_appointment->execute(array($client_id[0],$selected_car,$pickup_date,$return_date,$pickup_location,$return_location));
-					
+					// Generate email token
+					$email_token = bin2hex(random_bytes(16));
+
+					// Insert reservation with email_token and email_verified = 0
+					$stmt_appointment = $con->prepare(
+						"INSERT INTO reservations(client_id, car_id, pickup_date, return_date, pickup_location, return_location, email_token, email_verified)
+						VALUES(?, ?, ?, ?, ?, ?, ?, 0)"
+					);
+					$stmt_appointment->execute(array(
+						$client_id[0], $selected_car, $pickup_date, $return_date, $pickup_location, $return_location, $email_token
+					));
+
+					// Send confirmation email
+					require_once 'send_email.php';
+					sendConfirmationEmail($client_email, $email_token);
+
 					echo "<div class = 'alert alert-success'>";
-                        echo "Great! Your reservation has been created successfully.";
+                        echo "Great! Your reservation has been created. Please check your email to verify your reservation.";
                     echo "</div>";
 
 					$con->commit();
