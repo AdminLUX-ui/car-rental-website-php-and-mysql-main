@@ -1,5 +1,5 @@
 <?php
-$dsn = 'mysql:host=lux-mysql-server.mysql.database.azure.com;dbname=car_rental;sslmode=require';
+$dsn = 'mysql:host=lux-mysql-server.mysql.database.azure.com;dbname=car_rental';
 $user = 'mysqladmin@lux-mysql-server';
 $pass = 'Admin@123';
 
@@ -13,6 +13,7 @@ try {
     echo "Connected successfully";
 } catch(PDOException $ex) {
     echo "Failed to connect with database! " . $ex->getMessage();
-    
+
 }
+return $con;
 ?>
