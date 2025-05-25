@@ -116,3 +116,8 @@ composer install
 
 ## Credits
 - Built with PHP, MySQL, Bootstrap, and PHPMailer
+
+---
+
+## Improvements
+- The verification page (`verify_email.php`) now displays a clear message (success, error, or missing token) and automatically redirects the user to the home page after 3 seconds using JavaScript. This ensures a smooth user experience regardless of browser or output buffering.
