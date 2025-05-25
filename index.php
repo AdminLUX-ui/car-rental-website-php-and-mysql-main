@@ -13,7 +13,7 @@ if (!isset($con) || !$con) {
 ?>
 
 <!-- Home Section -->
-<!-- <section class = "home_section">
+<-- <section class = "home_section">
     <div class="section-header">
         <div class="section-title" style = "font-size:50px; color:white">
             Luxury Cars. Executive Service.
