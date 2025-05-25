@@ -13,7 +13,7 @@ if (!isset($con) || !$con) {
 ?>
 
 <!-- Home Section -->
-<-- <section class = "home_section">
+<section class = "home_section">
     <div class="section-header">
         <div class="section-title" style = "font-size:50px; color:white">
             Luxury Cars. Executive Service.
@@ -26,12 +26,12 @@ if (!isset($con) || !$con) {
 </section>
 
 <!-- Our Services Section -->
-<!-- <section class = "our-services" id = "services">
+<section class = "our-services" id = "services">
     <div class = "container">
         <div class="section-header">
             <div class="section-title">
                 What Services we offer to our clients
-            </div> -->
+            </div>
             <!-- <hr class="separator">
             <div class="section-tagline">
                 Who are passionate about sustainable and efficient travel solutions
