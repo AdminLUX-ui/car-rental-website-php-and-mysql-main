@@ -1,18 +1,41 @@
 <?php
-	session_start();
+session_start();
 
-	// IF THE USER HAS ALREADY LOGGED IN
-	if(isset($_SESSION['username_yahya_car_rental']) && isset($_SESSION['password_yahya_car_rental']))
-	{
-		header('Location: dashboard.php');
-		exit();
-	}
-	// ELSE
-	$pageTitle = 'Admin Login';
+// IF THE USER HAS ALREADY LOGGED IN
+if(isset($_SESSION['username_yahya_car_rental']) && isset($_SESSION['password_yahya_car_rental']))
+{
+	header('Location: dashboard.php');
+	exit();
+}
+
+// ELSE
+// LOGIN LOGIC BEFORE ANY OUTPUT
+if($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['signin-button']))
+{
 	include 'connect.php';
 	include 'Includes/functions/functions.php';
+	$username = test_input($_POST['username']);
+	$password = test_input($_POST['password']);
+	$hashedPass = sha1($password);
+	$stmt = $con->prepare("Select user_id, username,password from users where username = ? and password = ?");
+	$stmt->execute(array($username,$hashedPass));
+	$row = $stmt->fetch();
+	$count = $stmt->rowCount();
+	if($count > 0)
+	{
+		$_SESSION['username_yahya_car_rental'] = $username;
+		$_SESSION['password_yahya_car_rental'] = $password;
+		$_SESSION['user_id_yahya_car_rental'] = $row['user_id'];
+		header('Location: dashboard.php');
+		die();
+	}
+	// If login fails, set a flag to show error after HTML starts
+	$login_error = true;
+}
 
-
+$pageTitle = 'Admin Login';
+include 'connect.php';
+include 'Includes/functions/functions.php';
 ?>
 
 
@@ -41,50 +64,16 @@
 
 				<!-- PHP SCRIPT WHEN SUBMIT -->
 
-				<?php
-
-					if($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['signin-button']))
-					{
-						$username = test_input($_POST['username']);
-						$password = test_input($_POST['password']);
-						$hashedPass = sha1($password);
-
-						//Check if User Exist In database
-
-						$stmt = $con->prepare("Select user_id, username,password from users where username = ? and password = ?");
-						$stmt->execute(array($username,$hashedPass));
-						$row = $stmt->fetch();
-						$count = $stmt->rowCount();
-
-						// Check if count > 0 which mean that the database contain a record about this username
-
-						if($count > 0)
-						{
-
-							$_SESSION['username_yahya_car_rental'] = $username;
-							$_SESSION['password_yahya_car_rental'] = $password;
-							$_SESSION['user_id_yahya_car_rental'] = $row['user_id'];
-							header('Location: dashboard.php');
-							die();
-						}
-						else
-						{
-							?>
-
-							<div class="alert alert-danger">
-								<button data-dismiss="alert" class="close close-sm" type="button">
-									<span aria-hidden="true">×</span>
-								</button>
-								<div class="messages">
-									<div>Username and/or password are incorrect!</div>
-								</div>
-							</div>
-
-							<?php
-						}
-					}
-
-				?>
+				<?php if(isset($login_error) && $login_error): ?>
+				<div class="alert alert-danger">
+					<button data-dismiss="alert" class="close close-sm" type="button">
+						<span aria-hidden="true">×</span>
+					</button>
+					<div class="messages">
+						<div>Username and/or password are incorrect!</div>
+					</div>
+				</div>
+				<?php endif; ?>
 
 				<!-- USERNAME INPUT -->
 
