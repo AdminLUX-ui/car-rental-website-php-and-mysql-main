@@ -41,4 +41,78 @@ The website has two sides; 1- The client-side and 2- The admin side.
 	</ol>
 </div>
 
-"# car-rental-website-php-and-mysql-main" 
+# Lux Car Rental Web Application
+
+## Overview
+This is a PHP & MySQL-based car rental web application. It allows users to reserve cars online, with an email verification system to confirm reservations. The admin dashboard provides management for cars, clients, and reservations.
+
+---
+
+## Features
+- Car reservation with pickup/return location and date selection
+- Email confirmation for reservations (with verification link)
+- Admin dashboard for managing cars, brands, types, and clients
+- Responsive frontend using Bootstrap
+- Secure input handling and session management
+
+---
+
+## Email Verification Flow
+1. **User makes a reservation**: Enters details and submits the reservation form.
+2. **Token Generation**: A unique email verification token is generated and stored in the `reservations` table (`email_token`, `email_verified`).
+3. **Confirmation Email**: The system sends an email with a verification link to the user's email address using PHPMailer and SMTP (credentials are read from environment variables).
+4. **User clicks the link**: The link points to `verify_email.php`, which marks the reservation as verified if the token is valid.
+5. **Admin dashboard**: You can update your admin dashboard to show reservation status, including whether the email is verified. To do this, display the `email_verified` column from the `reservations` table in your admin reservation management page. This allows admins to see which reservations have been confirmed by email.
+
+---
+
+## Setup Instructions
+
+### 1. Database
+- Import `database.sql` to create/update the required tables.
+- Ensure the `reservations` table has `email_token` (VARCHAR(64)) and `email_verified` (TINYINT(1) DEFAULT 0) columns.
+
+### 2. Dependencies
+- PHP 8.1+
+- MySQL
+- [Composer](https://getcomposer.org/) for dependency management
+- PHPMailer (installed via Composer)
+
+#### Install dependencies:
+```bash
+composer install
+```
+
+### 3. SMTP Configuration
+- Set your SMTP credentials in your Azure App Service or local environment as environment variables:
+  - `SMTP_MAIL_PASSWORD` (your SMTP/app password)
+- Update `send_email.php` with your SMTP host, username, and from address.
+
+### 4. Deployment
+- The app is ready for deployment on Azure App Service.
+- The GitHub Actions workflow (`.github/workflows/main_lux-web-application.yml`) will build and deploy the app, running `composer install` automatically if `composer.json` is present.
+
+---
+
+## File Structure
+- `reserve.php` — Main reservation logic, generates token, sends email
+- `send_email.php` — Sends confirmation emails using PHPMailer
+- `verify_email.php` — Handles email verification via token
+- `admin/` — Admin dashboard and management pages
+- `composer.json` — Composer dependencies (PHPMailer)
+- `database.sql` — Database schema
+
+---
+
+## Troubleshooting
+- **Email not sending?**
+  - Ensure PHPMailer is installed (`vendor/` directory exists)
+  - Check SMTP credentials and environment variable setup
+  - Review Azure App Service logs for errors
+- **Header errors in admin?**
+  - Ensure no whitespace/BOM before `<?php` in PHP files, especially in `admin/Includes/functions/functions.php`
+
+---
+
+## Credits
+- Built with PHP, MySQL, Bootstrap, and PHPMailer
