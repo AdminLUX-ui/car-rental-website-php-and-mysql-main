@@ -1,6 +1,6 @@
 <?php 
     #PHP INCLUDES
-    include "connect.php";
+    $con = include 'connect.php';
     include "Includes/templates/header.php";
     include "Includes/templates/navbar.php";
 if (!isset($con) || !$con) {
@@ -409,4 +409,4 @@ new Vue({
 })
 
 
-</script> -->
+</script>
