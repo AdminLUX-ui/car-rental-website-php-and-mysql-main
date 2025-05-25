@@ -1,11 +1,8 @@
 <?php
+require __DIR__ . '/vendor/autoload.php'; // Use Composer autoloader
+
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
-
-// Include PHPMailer classes
-require 'PHPMailer/src/Exception.php';
-require 'PHPMailer/src/PHPMailer.php';
-require 'PHPMailer/src/SMTP.php';
 
 function sendConfirmationEmail($to, $token) {
     $mail = new PHPMailer(true);
