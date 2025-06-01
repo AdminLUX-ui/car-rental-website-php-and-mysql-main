@@ -3,13 +3,13 @@
 	  	<!-- End of Main Content -->
 
 	  	<!-- Footer -->
-	  	<footer class="sticky-footer bg-white">
+<!-- 	  	<footer class="sticky-footer bg-white">
 			<div class="container my-auto">
 		  		<div class="copyright text-center my-auto">
 					<span>Copyright &copy; Car Rental Website by JAIRI IDRISS 2021</span>
 		  		</div>
 			</div>
-	  	</footer>
+	  	</footer> -->
 	  	<!-- End of Footer -->
 
 	</div>
