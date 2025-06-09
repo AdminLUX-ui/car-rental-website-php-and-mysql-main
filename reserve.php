@@ -5,13 +5,12 @@
     include "Includes/templates/navbar.php";
 	include "Includes/functions/functions.php";
 
-	if (isset($_POST['reserve_car']) && $_SERVER['REQUEST_METHOD'] === 'POST')
-	{
-		$_SESSION['pickup_location'] = test_input($_POST['pickup_location']);
-		$_SESSION['return_location'] = test_input($_POST['return_location']);
-		$_SESSION['pickup_date'] = test_input($_POST['pickup_date']);
-		$_SESSION['return_date'] = test_input($_POST['return_date']);
-	}
+	if (isset($_POST['reserve_car']) && $_SERVER['REQUEST_METHOD'] === 'POST') {
+        $_SESSION['pickup_location'] = isset($_POST['pickup_location']) ? test_input($_POST['pickup_location']) : null;
+        $_SESSION['return_location'] = isset($_POST['return_location']) ? test_input($_POST['return_location']) : null;
+        $_SESSION['pickup_date'] = isset($_POST['pickup_date']) ? test_input($_POST['pickup_date']) : null;
+        $_SESSION['return_date'] = isset($_POST['return_date']) ? test_input($_POST['return_date']) : null;
+    }
 ?>
 
 <!-- BANNER SECTION -->
@@ -47,6 +46,7 @@
 					
 					//Getting the actual inserted client ID
 					$client_id = $con->lastInsertId();
+					error_log("Client ID: " . $client_id);
 
 					// Generate email token
 					$email_token = bin2hex(random_bytes(16));
