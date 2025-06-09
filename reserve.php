@@ -51,13 +51,18 @@
 					// Generate email token
 					$email_token = bin2hex(random_bytes(16));
 
-					// Insert reservation with email_token and email_verified = 0
+					// Get next reservation ID
+					$stmt_max_id = $con->prepare("SELECT COALESCE(MAX(reservation_id), 0) + 1 as next_id FROM reservations");
+					$stmt_max_id->execute();
+					$next_reservation_id = $stmt_max_id->fetch()['next_id'];
+
+					// Insert reservation with reservation_id, email_token and email_verified = 0
 					$stmt_appointment = $con->prepare(
-						"INSERT INTO reservations(client_id, car_id, pickup_date, return_date, pickup_location, return_location, email_token, email_verified)
-						VALUES(?, ?, ?, ?, ?, ?, ?, 0)"
+						"INSERT INTO reservations(reservation_id, client_id, car_id, pickup_date, return_date, pickup_location, return_location, email_token, email_verified)
+						VALUES(?, ?, ?, ?, ?, ?, ?, ?, 0)"
 					);
 					$stmt_appointment->execute(array(
-						$client_id, $selected_car, $pickup_date, $return_date, $pickup_location, $return_location, $email_token
+						$next_reservation_id, $client_id, $selected_car, $pickup_date, $return_date, $pickup_location, $return_location, $email_token
 					));
 
 					// Send confirmation email
