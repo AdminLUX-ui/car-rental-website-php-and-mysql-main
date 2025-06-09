@@ -1,7 +1,7 @@
 <?php
-$dsn = 'mysql:host=lux-mysql-server.mysql.database.azure.com;dbname=car_rental';
-$user = 'mysqladmin';
-$pass = 'Admin@123';
+$dsn = getenv('DB_STRING');
+$user = getenv('AZURE_MYSQL_USERNAME');
+$pass = getenv('AZURE_MYSQL_PASSWORD');
 
 $options = array(
     PDO::MYSQL_ATTR_INIT_COMMAND => 'SET NAMES utf8'
