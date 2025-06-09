@@ -40,16 +40,13 @@
 
                 try
                 {
-					//Getting Client Table Current ID
-					$stmtgetCurrentClientID = $con->prepare("SELECT AUTO_INCREMENT FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = 'car_rental' AND TABLE_NAME = 'clients'");
-            
-					$stmtgetCurrentClientID->execute();
-					$client_id = $stmtgetCurrentClientID->fetch();
-					
-					//Inserting Client Details
+					//Inserting Client Details first
 					$stmtClient = $con->prepare("insert into clients(full_name,client_email,client_phone) 
 									values(?,?,?)");
 					$stmtClient->execute(array($full_name,$client_email,$client_phonenumber));
+					
+					//Getting the actual inserted client ID
+					$client_id = $con->lastInsertId();
 
 					// Generate email token
 					$email_token = bin2hex(random_bytes(16));
@@ -60,7 +57,7 @@
 						VALUES(?, ?, ?, ?, ?, ?, ?, 0)"
 					);
 					$stmt_appointment->execute(array(
-						$client_id[0], $selected_car, $pickup_date, $return_date, $pickup_location, $return_location, $email_token
+						$client_id, $selected_car, $pickup_date, $return_date, $pickup_location, $return_location, $email_token
 					));
 
 					// Send confirmation email
